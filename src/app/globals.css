@@ -1,0 +1,157 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  /* Afro-Editorial Montagnard palette */
+  --forest: #0F1A14;
+  --forest-deep: #050A07;
+  --paper: #F2EBDC;
+  --paper-bright: #FBF7EE;
+  --terracotta: #D97706;
+  --terracotta-dark: #A85A04;
+  --kivu: #06A0C0;
+  --kivu-dark: #047A91;
+  --ink: #1A1612;
+  --line: rgba(15, 26, 20, 0.12);
+
+  --font-fraunces: 'Fraunces', Georgia, serif;
+  --font-schibsted: 'Schibsted Grotesk', system-ui, sans-serif;
+  --font-jetbrains: 'JetBrains Mono', ui-monospace, monospace;
+
+  --grain-opacity: 0.05;
+}
+
+@layer base {
+  html { min-height: 100%; }
+  body {
+    min-height: 100vh;
+    overflow-x: hidden;
+    background: var(--paper);
+    color: var(--ink);
+    font-family: var(--font-schibsted);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  ::selection {
+    background: var(--terracotta);
+    color: var(--paper-bright);
+  }
+
+  h1, h2, h3, h4 {
+    font-family: var(--font-fraunces);
+    font-weight: 600;
+    letter-spacing: -0.04em;
+    line-height: 0.95;
+  }
+
+  /* Decorative number caption mimicking travel magazine folios */
+  .folio {
+    font-family: var(--font-jetbrains);
+    font-size: 10px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--ink);
+    opacity: 0.55;
+  }
+}
+
+@layer components {
+  /* Editorial container — purposeful asymmetry on large screens */
+  .container-editorial {
+    @apply mx-auto max-w-7xl px-6 sm:px-10 lg:px-14;
+  }
+
+  /* Hairline rule with terracotta dot — magazine pull-quote style */
+  .editorial-rule {
+    position: relative;
+    height: 1px;
+    background: var(--line);
+  }
+  .editorial-rule::before {
+    content: '';
+    position: absolute;
+    left: 0; top: 50%;
+    width: 8px; height: 8px;
+    background: var(--terracotta);
+    border-radius: 50%;
+    transform: translateY(-50%);
+  }
+
+  .btn-display {
+    @apply inline-flex items-center gap-2 font-mono text-xs uppercase tracking-[0.18em] py-3 px-5 rounded-none transition-all duration-300;
+  }
+  .btn-display-primary {
+    @apply btn-display bg-forest text-paper hover:bg-terracotta;
+  }
+  .btn-display-outline {
+    @apply btn-display border border-ink/20 text-ink hover:border-terracotta hover:text-terracotta;
+  }
+
+  .card-editorial {
+    @apply bg-paper-bright border border-ink/10 transition-all duration-500 ease-out;
+  }
+  .card-editorial:hover {
+    @apply -translate-y-1 border-ink/30;
+    box-shadow: 0 20px 50px -20px rgba(15, 26, 20, 0.35);
+  }
+
+  .input-editorial {
+    @apply w-full bg-transparent border-0 border-b border-ink/15 py-3 px-0 text-ink placeholder:text-ink/40 focus:border-terracotta focus:ring-0 outline-none transition-colors;
+  }
+
+  .label-folio {
+    @apply font-mono text-[10px] uppercase tracking-[0.18em] text-ink/55;
+  }
+}
+
+@layer utilities {
+  .text-balance { text-wrap: balance; }
+  .text-pretty { text-wrap: pretty; }
+
+  /* Subtle film grain overlay */
+  .grain-overlay {
+    position: relative;
+    isolation: isolate;
+  }
+  .grain-overlay::after {
+    content: '';
+    position: fixed;
+    inset: -150%;
+    pointer-events: none;
+    z-index: 0;
+    opacity: var(--grain-opacity);
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    animation: grain 8s steps(10) infinite;
+    mix-blend-mode: multiply;
+  }
+
+  /* Editorial dropcap for the first paragraph of long-form text */
+  .dropcap::first-letter {
+    font-family: var(--font-fraunces);
+    font-size: 5em;
+    line-height: 0.8;
+    float: left;
+    margin: 0.05em 0.08em -0.1em 0;
+    color: var(--terracotta);
+    font-weight: 600;
+  }
+
+  .mask-fade-y {
+    -webkit-mask-image: linear-gradient(180deg, transparent, #000 12%, #000 88%, transparent);
+    mask-image: linear-gradient(180deg, transparent, #000 12%, #000 88%, transparent);
+  }
+}
+
+/* Leaflet popup overrides */
+.leaflet-popup-content-wrapper {
+  font-family: var(--font-schibsted) !important;
+  border-radius: 0 !important;
+  background: var(--paper-bright) !important;
+  border: 1px solid var(--line) !important;
+  padding: 0 !important;
+  box-shadow: 0 12px 40px -12px rgba(15, 26, 20, 0.35) !important;
+}
+.leaflet-popup-content { margin: 12px 16px !important; }
+.leaflet-popup-tip { background: var(--paper-bright) !important; border: 1px solid var(--line) !important; }
