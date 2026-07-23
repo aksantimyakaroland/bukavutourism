@@ -5,11 +5,28 @@ import { notFound } from 'next/navigation';
 import Link from 'next/link';
 import Image from 'next/image';
 import { getLocale } from 'next-intl/server';
+import type { Metadata } from 'next';
 import type { Destination, Tour, Rating } from '@/types/database';
 import { tField } from '@/lib/utils/i18n-field';
 import { MapContainer } from '@/components/client/MapContainer';
 import { RatingCard } from '@/components/client/RatingCard';
 import { BookingButton } from '@/components/client/BookingButton';
+
+export async function generateMetadata({ params: { slug } }: { params: { slug: string } }): Promise<Metadata> {
+  const cookieStore = cookies();
+  const supabase = createServerClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+    { cookies: { getAll: () => cookieStore.getAll(), setAll: () => {} } }
+  );
+  const { data: d } = await supabase.from('destinations').select('name_fr, description_fr').eq('slug', slug).eq('is_active', true).maybeSingle();
+  return {
+    title: d?.name_fr || 'Destination',
+    description: (d?.description_fr || 'Découvrez cette destination à Bukavu, Sud-Kivu.').slice(0, 160),
+    openGraph: { title: d?.name_fr, description: (d?.description_fr || '').slice(0, 160) },
+    alternates: { canonical: `https://visitbukavu.netlify.app/destinations/${slug}` },
+  };
+}
 
 export default async function DestinationDetailPage({
   params: { locale, slug },
