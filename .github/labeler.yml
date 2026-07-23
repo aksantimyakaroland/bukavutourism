@@ -1,0 +1,30 @@
+frontend:
+  - changed-files:
+      - any-glob-to-any-file: 'src/app/[locale]/(public)/**/*'
+      - any-glob-to-any-file: 'src/components/client/**/*'
+      - any-glob-to-any-file: 'src/components/shared/**/*'
+
+admin:
+  - changed-files:
+      - any-glob-to-any-file: 'src/app/admin/**/*'
+      - any-glob-to-any-file: 'src/components/admin/**/*'
+
+api:
+  - changed-files:
+      - any-glob-to-any-file: 'src/app/api/**/*'
+      - any-glob-to-any-file: 'src/middleware.ts'
+
+db:
+  - changed-files:
+      - any-glob-to-any-file: 'src/types/**/*'
+      - any-glob-to-any-file: 'src/lib/supabase/**/*'
+
+deps:
+  - changed-files:
+      - any-glob-to-any-file: 'package.json'
+      - any-glob-to-any-file: 'package-lock.json'
+
+docs:
+  - changed-files:
+      - any-glob-to-any-file: '*.md'
+      - any-glob-to-any-file: '.github/**/*'
