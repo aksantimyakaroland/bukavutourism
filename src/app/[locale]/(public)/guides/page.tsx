@@ -1,8 +1,16 @@
 import { setRequestLocale, getTranslations } from 'next-intl/server';
 import { createServerClient } from '@supabase/ssr';
 import { cookies } from 'next/headers';
+import type { Metadata } from 'next';
 import type { Guide } from '@/types/database';
 import { GuideCard } from '@/components/client/GuideCard';
+
+export const metadata: Metadata = {
+  title: 'Guides',
+  description: 'Guides professionnels à Bukavu — experts locaux pour trekking, visites culturelles et excursions au Sud-Kivu.',
+  openGraph: { title: 'Guides', description: 'Guides professionnels à Bukavu — experts locaux.' },
+  alternates: { canonical: 'https://visitbukavu.netlify.app/guides' },
+};
 
 export default async function GuidesPage({ params: { locale } }: { params: { locale: string } }) {
   setRequestLocale(locale);

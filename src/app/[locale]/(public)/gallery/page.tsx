@@ -2,8 +2,16 @@ import { setRequestLocale, getTranslations, getLocale } from 'next-intl/server';
 import { createServerClient } from '@supabase/ssr';
 import { cookies } from 'next/headers';
 import Image from 'next/image';
+import type { Metadata } from 'next';
 import type { GalleryItem } from '@/types/database';
 import { tField } from '@/lib/utils/i18n-field';
+
+export const metadata: Metadata = {
+  title: 'Galerie',
+  description: 'Galerie photo du Sud-Kivu — lacs, gorilles, paysages et culture de Bukavu en images.',
+  openGraph: { title: 'Galerie', description: 'Galerie photo de Bukavu et du Sud-Kivu.' },
+  alternates: { canonical: 'https://visitbukavu.netlify.app/gallery' },
+};
 
 export default async function GalleryPage({ params: { locale } }: { params: { locale: string } }) {
   setRequestLocale(locale);

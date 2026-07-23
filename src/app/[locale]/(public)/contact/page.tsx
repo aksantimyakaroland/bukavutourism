@@ -1,5 +1,13 @@
 import { setRequestLocale, getTranslations } from 'next-intl/server';
+import type { Metadata } from 'next';
 import { ContactForm } from '@/components/client/ContactForm';
+
+export const metadata: Metadata = {
+  title: 'Contact',
+  description: 'Contactez-nous pour réserver un circuit, poser une question ou organiser votre voyage à Bukavu.',
+  openGraph: { title: 'Contact', description: 'Contactez-nous pour votre voyage à Bukavu.' },
+  alternates: { canonical: 'https://visitbukavu.netlify.app/contact' },
+};
 
 export default async function ContactPage({ params: { locale } }: { params: { locale: string } }) {
   setRequestLocale(locale);

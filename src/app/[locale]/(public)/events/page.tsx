@@ -1,8 +1,16 @@
 import { setRequestLocale, getTranslations } from 'next-intl/server';
 import { createServerClient } from '@supabase/ssr';
 import { cookies } from 'next/headers';
+import type { Metadata } from 'next';
 import type { Event } from '@/types/database';
 import { EventCard } from '@/components/client/EventCard';
+
+export const metadata: Metadata = {
+  title: 'Événements',
+  description: 'Événements à venir à Bukavu — festivals, conférences, expositions et activités culturelles au Sud-Kivu.',
+  openGraph: { title: 'Événements', description: 'Événements à venir à Bukavu et au Sud-Kivu.' },
+  alternates: { canonical: 'https://visitbukavu.netlify.app/events' },
+};
 
 export default async function EventsPage({ params: { locale } }: { params: { locale: string } }) {
   setRequestLocale(locale);
