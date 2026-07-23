@@ -4,7 +4,24 @@ import { cookies } from 'next/headers';
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
 import Image from 'next/image';
+import type { Metadata } from 'next';
 import type { Article } from '@/types/database';
+
+export async function generateMetadata({ params: { slug } }: { params: { slug: string } }): Promise<Metadata> {
+  const cookieStore = cookies();
+  const supabase = createServerClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+    { cookies: { getAll: () => cookieStore.getAll(), setAll: () => {} } }
+  );
+  const { data: a } = await supabase.from('articles').select('title_fr, excerpt_fr').eq('slug', slug).eq('is_published', true).maybeSingle();
+  return {
+    title: a?.title_fr || 'Article',
+    description: (a?.excerpt_fr || 'Article de voyage sur Bukavu, Sud-Kivu.').slice(0, 160),
+    openGraph: { title: a?.title_fr, description: (a?.excerpt_fr || '').slice(0, 160) },
+    alternates: { canonical: `https://visitbukavu.netlify.app/articles/${slug}` },
+  };
+}
 
 export default async function ArticleDetailPage({
   params: { locale, slug },

@@ -3,11 +3,28 @@ import { createServerClient } from '@supabase/ssr';
 import { cookies } from 'next/headers';
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
+import type { Metadata } from 'next';
 import type { Tour, Rating } from '@/types/database';
 import { tField } from '@/lib/utils/i18n-field';
 import { formatCurrency } from '@/lib/utils/format';
 import { RatingCard } from '@/components/client/RatingCard';
 import { TourBookingButton } from '@/components/client/TourBookingButton';
+
+export async function generateMetadata({ params: { slug } }: { params: { slug: string } }): Promise<Metadata> {
+  const cookieStore = cookies();
+  const supabase = createServerClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+    { cookies: { getAll: () => cookieStore.getAll(), setAll: () => {} } }
+  );
+  const { data: t } = await supabase.from('tours').select('name_fr, description_fr').eq('slug', slug).eq('is_active', true).maybeSingle();
+  return {
+    title: t?.name_fr || 'Circuit',
+    description: (t?.description_fr || 'Découvrez ce circuit à Bukavu, Sud-Kivu.').slice(0, 160),
+    openGraph: { title: t?.name_fr, description: (t?.description_fr || '').slice(0, 160) },
+    alternates: { canonical: `https://visitbukavu.netlify.app/tours/${slug}` },
+  };
+}
 
 export default async function TourDetailPage({
   params: { locale, slug },
