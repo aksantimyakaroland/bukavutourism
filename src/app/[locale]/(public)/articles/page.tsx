@@ -3,7 +3,15 @@ import { createServerClient } from '@supabase/ssr';
 import { cookies } from 'next/headers';
 import Link from 'next/link';
 import Image from 'next/image';
+import type { Metadata } from 'next';
 import type { Article } from '@/types/database';
+
+export const metadata: Metadata = {
+  title: 'Articles',
+  description: 'Blog de voyage — actualités, guides et récits sur Bukavu, le Sud-Kivu et la République Démocratique du Congo.',
+  openGraph: { title: 'Articles', description: 'Blog de voyage sur Bukavu et le Sud-Kivu.' },
+  alternates: { canonical: 'https://visitbukavu.netlify.app/articles' },
+};
 
 export default async function ArticlesPage({ params: { locale } }: { params: { locale: string } }) {
   setRequestLocale(locale);

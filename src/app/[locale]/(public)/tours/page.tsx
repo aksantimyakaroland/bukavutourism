@@ -1,8 +1,16 @@
 import { setRequestLocale, getTranslations } from 'next-intl/server';
 import { createServerClient } from '@supabase/ssr';
 import { cookies } from 'next/headers';
+import type { Metadata } from 'next';
 import type { Tour } from '@/types/database';
 import { TourCard } from '@/components/client/TourCard';
+
+export const metadata: Metadata = {
+  title: 'Circuits',
+  description: 'Découvrez nos circuits guidés à Bukavu — randonnées, excursions lacustres, trekking gorilles et visites culturelles.',
+  openGraph: { title: 'Circuits', description: 'Découvrez nos circuits guidés à Bukavu et au Sud-Kivu.' },
+  alternates: { canonical: 'https://visitbukavu.netlify.app/tours' },
+};
 
 export default async function ToursPage({ params: { locale } }: { params: { locale: string } }) {
   setRequestLocale(locale);

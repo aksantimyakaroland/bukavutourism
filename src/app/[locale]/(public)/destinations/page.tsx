@@ -1,9 +1,17 @@
 import { setRequestLocale, getTranslations } from 'next-intl/server';
 import { createServerClient } from '@supabase/ssr';
 import { cookies } from 'next/headers';
+import type { Metadata } from 'next';
 import type { Destination, Category } from '@/types/database';
 import { DestinationCard } from '@/components/client/DestinationCard';
 import { DestinationFilters } from '@/components/client/DestinationFilters';
+
+export const metadata: Metadata = {
+  title: 'Destinations',
+  description: 'Explorez les plus beaux endroits de Bukavu et du Sud-Kivu — lacs, montagnes, culture et gastronomie.',
+  openGraph: { title: 'Destinations', description: 'Explorez les plus beaux endroits de Bukavu et du Sud-Kivu.' },
+  alternates: { canonical: 'https://visitbukavu.netlify.app/destinations' },
+};
 
 const CATEGORIES: Category[] = ['nature', 'cultural', 'adventure', 'urban', 'gastronomy'];
 
