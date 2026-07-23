@@ -37,7 +37,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
       setUser(data as User);
       setLoaded(true);
     })();
-  }, [router]);
+  }, [router, pathname]);
 
   if (pathname === '/admin/login') {
     return <>{children}</>;
